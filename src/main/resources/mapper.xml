@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EmployeeMapper">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+
+    <resultMap id="courses" type="courses">
+        <id property="id" column="cid"/>
+        <result property="cname" column="cname"/>
+    </resultMap>
+
+    <select id="findName" resultMap="courses" parameterType="String">
+        select * from courses where cname=#{name}
+    </select>
+
+</mapper>
