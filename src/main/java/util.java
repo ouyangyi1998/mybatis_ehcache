@@ -18,8 +18,9 @@ public class util {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
         }catch (Exception e)
         {
+            System.err.println("Error initializing SqlSessionFactory. Cause: " + e); // Added for more context
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to initialize SqlSessionFactory", e); // Wrap original exception
         }
     }
     public  static  SqlSession getSqlSession()

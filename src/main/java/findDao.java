@@ -3,14 +3,16 @@ import org.apache.ibatis.session.SqlSession;
 public class findDao {
     public courses findByName(String name)
     {
-        SqlSession sqlSession=util.getSqlSession();
+        SqlSession currentSession = util.getSqlSession();
         try{
 
-            return sqlSession.selectOne("EmployeeMapper.findName",name);
-            }catch (Exception e)
+            return currentSession.selectOne("EmployeeMapper.findName",name);
+            }catch (org.apache.ibatis.exceptions.PersistenceException e)
             {
                 e.printStackTrace();
-                sqlSession.rollback();
+                if (currentSession != null) {
+                    currentSession.rollback();
+                }
             }finally {
                 util.closeSqlSession();
             }
@@ -20,6 +22,10 @@ public class findDao {
     {
             findDao dao=new findDao();
             courses course=dao.findByName("android");
-            System.out.println(course.getId()+"   "+course.getCname());
+            if (course == null) {
+                System.out.println("Course not found.");
+            } else {
+                System.out.println(course.getId()+"   "+course.getCname());
+            }
     }
 }
